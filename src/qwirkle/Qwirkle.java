@@ -18,6 +18,8 @@ package qwirkle;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import view.*;
 
 /**
  *
@@ -28,6 +30,17 @@ public class Qwirkle {
     public static void main(String[] args) throws InterruptedException {
         TilesAvailable tiles = new TilesAvailable();
         tiles.initialise();
+        Grid grid = new Grid();
+        grid.createInitialCoordinates();
+        grid.addTiles(0, 0, "right", tiles.tiles);
+        
+        JFrame f = new JFrame("Qwirkle");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        GridView view = new GridView(grid.coordinates);
+        f.add(view);
+        f.setSize(550+16,550+39);
+        f.setVisible(true);
     }
+
     
 }

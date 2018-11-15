@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 s159102
+ * Copyright (C) 2018 Mart
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,29 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package qwirkle;
+package view;
 
-import java.awt.Color;
+import java.awt.*;
+import javax.swing.*;
 
 /**
  *
- * @author s159102
+ * @author Mart
  */
-public class Tile {
+public class MainView extends JPanel {
     
-    private String shape; //the shape of the tile
-    private Color color; //the color of the tile
-
-    public Tile(String shape, Color color){
-        this.shape = shape;
-        this.color = color;
-    }
-    
-    public String getShape(){
-        return shape;
-    }
-    
-    public Color getColor(){
-        return color;
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        this.setBackground(Color.WHITE);
+        
+        g.setColor(Color.BLUE);
+        g.fillRect(25, 25, 100, 30);
+        
+        g.setColor(new Color(190, 81, 215));
+        g.fillRect(25, 65, 100, 30);
+        
     }
 }

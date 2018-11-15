@@ -17,41 +17,27 @@
 package qwirkle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
  * @author s159102
  */
 public class Grid {
-    ArrayList<ArrayList<Coordinate>> coordinates = new ArrayList();;
+    ArrayList<Coordinate> coordinates = new ArrayList();;
     
     Grid(){ 
     }
     
-    void create(){
+    void createInitialCoordinates(){
         for (int i = 0; i <= 181; i++){
-            ArrayList<Coordinate> newArrayList = new ArrayList();
-            coordinates.add(newArrayList);
-        }
-        createInitialTiles();
-    }
-    
-    void createInitialTiles(){
-        for (int i = 86; i <= 96; i++){
-            for (int j = 86; j <= 96; j++){
+            for (int j = 0; j <= 181; j++){
                 Coordinate newCoordinate = new Coordinate(i, j);
-                addCoordinate(newCoordinate);
+                coordinates.add(newCoordinate);
             }
         }
     }
-    
-    void addCoordinate(Coordinate coordinate){
-        insertCoordinate(coordinates.get(coordinate.getY()), coordinate);
-    }
-    
-    void insertCoordinate(ArrayList<Coordinate> list, Coordinate coordinate){
-        
-    }
+
     
     void addTiles(int x, int y, String direction, ArrayList<Tile> tiles){
         addTile(x, y, tiles.remove(0));
@@ -80,5 +66,6 @@ public class Grid {
     void addTile(int x, int y, Tile tile){
         Coordinate coordinate = new Coordinate(x, y);
         coordinate.add(tile);
+        coordinates.add(coordinate);
     }
 }

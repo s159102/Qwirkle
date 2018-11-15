@@ -22,17 +22,17 @@ package qwirkle;
  */
 public class Coordinate {
     private Boolean empty;
-    Tile tile;
+    public Tile tile;
     private Integer x;
     private Integer y;
     
-    Coordinate(Integer x, Integer y){
+    public Coordinate(Integer x, Integer y){
         this.x = x;
         this.y = y;
         this.empty = true;
     }
     
-    void add(Tile tile){
+    public void add(Tile tile){
         this.tile = tile;
         this.empty = false;
     }

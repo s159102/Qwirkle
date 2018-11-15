@@ -16,8 +16,8 @@
  */
 package qwirkle;
 
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -25,10 +25,10 @@ import java.util.Collections;
  * @author s159102
  */
 public class TilesAvailable {
-    String[] shapes = {"star", "cirkle", "square", "diamond", "clover", "cross"};
-    String[] colors = {"blue", "red", "yellow", "green", "purple", "orange"};
+    String[] shapes = {"star", "circle", "square", "diamond", "clover", "cross"};
+    Color[] colors = {new Color(1, 138, 239), new Color(244, 6, 31), new Color(242, 232, 56), new Color(165, 206, 78), new Color(106, 5, 137), new Color(243, 142, 30)};
     Integer numberOfTilesInBag = 108;
-    ArrayList<Tile> tiles = new ArrayList();
+    public ArrayList<Tile> tiles = new ArrayList();
     
     void TilesAvailable(){
         
@@ -50,7 +50,7 @@ public class TilesAvailable {
     private void createTiles(){
         for (String shape : shapes){
             System.out.println(shape);
-            for (String color : colors){
+            for (Color color : colors){
                 tiles.add(new Tile(shape, color));
                 tiles.add(new Tile(shape, color));
                 tiles.add(new Tile(shape, color));
