@@ -16,25 +16,21 @@
  */
 package view;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author Mart
  */
-public class MainView extends JPanel {
-    
-    @Override
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        this.setBackground(Color.WHITE);
-        
-        g.setColor(Color.BLUE);
-        g.fillRect(25, 25, 100, 30);
-        
-        g.setColor(new Color(190, 81, 215));
-        g.fillRect(25, 65, 100, 30);
-        
+public class OptionFrame extends JFrame{
+    public OptionFrame(String title) {
+        this.setTitle(title);
+        this.setSize(550+16,550+39);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
     }
+    
 }

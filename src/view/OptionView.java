@@ -17,20 +17,25 @@
 package view;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 import qwirkle.Coordinate;
+import qwirkle.Grid;
 import qwirkle.Tile;
+import qwirkle.TilesAvailable;
 
 /**
  *
  * @author Mart
  */
-public class GridView extends JPanel {
+public class OptionView extends JPanel {
     
-    ArrayList<Coordinate> coordinates = new ArrayList();
+    ArrayList<Coordinate> coordinates;
+
+    public OptionView(ArrayList<Coordinate> coordinates) {
+        super();
+        this.coordinates = coordinates;
+    }
     
     @Override
     public void paintComponent(Graphics g){
@@ -38,9 +43,9 @@ public class GridView extends JPanel {
         this.setBackground(Color.WHITE);
         
         g.setColor(Color.BLACK);
-        for (int i = 0; i <= 4550; i = i + 50){
-            g.drawLine(i, 0, i, 4550);
-            g.drawLine(0, i, 4550, i);
+        for (int i = 0; i <= 300; i = i + 50){
+            g.drawLine(i, 0, i, 300);
+            g.drawLine(0, i, 300, i);
         }
 
         for (Coordinate coordinateToDraw: coordinates){
@@ -49,40 +54,16 @@ public class GridView extends JPanel {
 
     }
     
-    public void addCoordinate(Coordinate coordinate){
-        coordinates.add(coordinate);
-        repaint();
-        revalidate();
-    }
-    
-    public void addTile(Tile tile){
-        this.addMouseListener(new MouseAdapter() {
-          public void mouseClicked(MouseEvent e) {
-            if (e.getButton() == MouseEvent.NOBUTTON) {
-                System.out.println("nobutton");
-            } else if (e.getButton() == MouseEvent.BUTTON1) {
-                System.out.println("linkse muis knop");
-                Integer xTile = e.getX()/50;
-                Integer yTile = e.getY()/50;
-                System.out.println("x: "+ xTile + ", y: "+yTile);
-                Coordinate coordinate = new Coordinate(xTile, yTile);
-                coordinate.add(tile);
-                addCoordinate(coordinate);
-            } else if (e.getButton() == MouseEvent.BUTTON2) {
-                System.out.println("middel muis knop");
-            } else if (e.getButton() == MouseEvent.BUTTON3) {
-                System.out.println("rechter muis knop");
-            }
-          }
-        });
-
-    }
-    
     public void drawCoordinate(Coordinate coordinate, Graphics g){
         if (coordinate.tile != null){
-            System.out.println(" drawCoordinate");
             Integer x = coordinate.getX()*50;
             Integer y = coordinate.getY()*50;
+            
+            while (x > 250){
+                x = x - 300;
+                y = y + 50;
+            }
+            
             g.setColor(Color.BLACK);
             g.fillRect(x, y, 50, 50);
             switch(coordinate.tile.getShape()){

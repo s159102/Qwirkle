@@ -16,8 +16,10 @@
  */
 package qwirkle;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import view.*;
 
@@ -27,19 +29,46 @@ import view.*;
  */
 public class Qwirkle {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         TilesAvailable tiles = new TilesAvailable();
         tiles.initialise();
         Grid grid = new Grid();
         grid.createInitialCoordinates();
         grid.addTiles(0, 0, "right", tiles.tiles);
+        GridView view = new GridView();
         
         JFrame f = new JFrame("Qwirkle");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GridView view = new GridView(grid.coordinates);
-        f.add(view);
-        f.setSize(550+16,550+39);
+        f.setExtendedState(JFrame.NORMAL); 
         f.setVisible(true);
+        f.setLayout(new BoxLayout(f.getContentPane(), BoxLayout.PAGE_AXIS));
+        f.add(view);
+
+        TilesAvailable tiles2 = new TilesAvailable();
+        tiles2.initialise();
+        Grid grid2 = new Grid();
+        grid2.createInitialCoordinates();
+        grid2.addTiles(0, 0, "right", tiles2.options);
+        OptionView view2 = new OptionView(grid2.coordinates);  
+        f.add(view2);
+        view2.addMouseListener(new MouseAdapter() {
+          public void mouseClicked(MouseEvent e) {
+            if (e.getButton() == MouseEvent.NOBUTTON) {
+                System.out.println("nobutton");
+            } else if (e.getButton() == MouseEvent.BUTTON1) {
+                System.out.println("linkse muis knop");
+                int xTile = e.getX()/50;
+                int yTile = e.getY()/50;
+                int index = xTile + 6 * (yTile -1);
+                Tile tileToPlace = tiles.options.get(index);
+                view.addTile(tileToPlace);
+            } else if (e.getButton() == MouseEvent.BUTTON2) {
+                System.out.println("middel muis knop");
+            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                System.out.println("rechter muis knop");
+            }
+          }
+        });
     }
 
     
