@@ -17,55 +17,65 @@
 package qwirkle;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  *
  * @author s159102
  */
-public class Grid {
-    ArrayList<Coordinate> coordinates = new ArrayList();;
+public class Matrix {
+    Coordinate[][] matrix = new Coordinate[181][181];
     
-    Grid(){ 
+    Matrix(){ 
     }
     
-    void createInitialCoordinates(){
-        for (int i = 0; i <= 181; i++){
-            for (int j = 0; j <= 181; j++){
-                Coordinate newCoordinate = new Coordinate(i, j);
-                coordinates.add(newCoordinate);
+    public void initialise(){
+        for(int i = 0; i < 181; i++){
+            for(int j = 0; j < 181; j++){
+                Coordinate newCoordinate = new Coordinate();
+                matrix[i][j] = newCoordinate;
             }
         }
     }
-
     
-    void addTiles(int x, int y, String direction, ArrayList<Tile> tiles){
-        addTile(x, y, tiles.remove(0));
+    public void addTiles(int x, int y, String direction, ArrayList<Tile> tiles){
+        
+        if (tiles.size() > 6){
+            throw new IllegalArgumentException("Matrix.addTiles(); Number of tiles > 6");
+        }
+        
         while (!tiles.isEmpty()){
             switch(direction){
                 case "right":
-                    x = x + 1;
                     addTile(x, y, tiles.remove(0));
+                    x = x + 1;
                     break;
                 case "left":
-                    x = x - 1;
                     addTile(x, y, tiles.remove(0));
+                    x = x - 1;
                     break;
                 case "up":
-                    y = y + 1;
                     addTile(x, y, tiles.remove(0));
+                    y = y + 1;
                     break;
                 case "down":
-                    y = y - 1;
                     addTile(x, y, tiles.remove(0));
+                    y = y - 1;
                     break;
             }
         }
     }
     
-    void addTile(int x, int y, Tile tile){
-        Coordinate coordinate = new Coordinate(x, y);
-        coordinate.add(tile);
-        coordinates.add(coordinate);
+    public Coordinate getCoordinate(int x, int y){
+        return matrix[x][y];
+    }
+    
+    public void addTile(int x, int y, Tile tile){
+        if (tile == null){
+            throw new IllegalArgumentException("Matrix.addTile(); tile == null");
+        }
+        if (x < 0 || y < 0){
+            throw new IllegalArgumentException("Matrix.addTile(); x < 0 || y < 0");
+        }
+        matrix[x][y].add(tile);
     }
 }

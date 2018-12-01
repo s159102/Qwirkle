@@ -14,15 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package view;
+package qwirkle;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import javax.swing.*;
-import qwirkle.Coordinate;
-import qwirkle.Tile;
 
 /**
  *
@@ -30,88 +27,109 @@ import qwirkle.Tile;
  */
 public class GridView extends JPanel {
     
-    ArrayList<Coordinate> coordinates = new ArrayList();
+    Matrix matrix;
+    
+    public GridView(){
+        setMouseListener();
+    }
     
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        this.setBackground(Color.WHITE);
         
+        this.setBackground(Color.WHITE);
+        drawLines(g);
+        drawCoordinates(g);
+
+        if (matrix != null){
+            System.out.println("");
+        }
+    }
+    
+    private void drawCoordinates(Graphics g){
+        if (matrix != null){
+            for (int i = 0; i < 181; i++){
+                for (int j = 0; j < 181; j++){
+                    drawCoordinate(matrix.getCoordinate(i, j), i, j, g);
+                }
+            }
+        }
+    }
+    
+    private void drawLines(Graphics g){
         g.setColor(Color.BLACK);
         for (int i = 0; i <= 4550; i = i + 50){
             g.drawLine(i, 0, i, 4550);
             g.drawLine(0, i, 4550, i);
         }
-
-        for (Coordinate coordinateToDraw: coordinates){
-           drawCoordinate(coordinateToDraw, g);
-        }
-
     }
     
-    public void addCoordinate(Coordinate coordinate){
-        coordinates.add(coordinate);
+    public void setMatrix(Matrix matrix){
+        this.matrix = matrix;
         repaint();
         revalidate();
     }
     
-    public void addTile(Tile tile){
+    private void setMouseListener(){
         this.addMouseListener(new MouseAdapter() {
+          @Override
           public void mouseClicked(MouseEvent e) {
-            if (e.getButton() == MouseEvent.NOBUTTON) {
-                System.out.println("nobutton");
-            } else if (e.getButton() == MouseEvent.BUTTON1) {
-                System.out.println("linkse muis knop");
-                Integer xTile = e.getX()/50;
-                Integer yTile = e.getY()/50;
-                System.out.println("x: "+ xTile + ", y: "+yTile);
-                Coordinate coordinate = new Coordinate(xTile, yTile);
-                coordinate.add(tile);
-                addCoordinate(coordinate);
-            } else if (e.getButton() == MouseEvent.BUTTON2) {
-                System.out.println("middel muis knop");
-            } else if (e.getButton() == MouseEvent.BUTTON3) {
-                System.out.println("rechter muis knop");
-            }
+              switch (e.getButton()) {
+              case MouseEvent.NOBUTTON:
+                  System.out.println("nobutton");
+                  break;
+              case MouseEvent.BUTTON1:
+                  System.out.println("linkse muis knop");
+                  break;
+              case MouseEvent.BUTTON2:
+                  System.out.println("middel muis knop");
+                  break;
+              case MouseEvent.BUTTON3:
+                  System.out.println("rechter muis knop");
+                  break;
+              default:
+                  break;
+              }
           }
         });
 
     }
     
-    public void drawCoordinate(Coordinate coordinate, Graphics g){
-        if (coordinate.tile != null){
+    public void drawCoordinate(Coordinate coordinate, int x, int y, Graphics g){
+        if (!coordinate.isEmpty()){
             System.out.println(" drawCoordinate");
-            Integer x = coordinate.getX()*50;
-            Integer y = coordinate.getY()*50;
+            x = x * 50;
+            y = y * 50;
             g.setColor(Color.BLACK);
             g.fillRect(x, y, 50, 50);
-            switch(coordinate.tile.getShape()){
+            g.setColor(coordinate.tile().getColor());
+            switch(coordinate.tile().getShape()){
                 case "circle":
-                    g.setColor(coordinate.tile.getColor());
                     g.fillOval(x+5, y+5, 40, 40);
                     break;
                 case "star":
-                    g.setColor(coordinate.tile.getColor());
                     int[] xpointsStar = {x+25, x+20, x+11, x+13, x+5, x+13, x+13, x+11, x+20, x+25, x+30, x+39, x+36, x+45, x+36, x+39, x+30};
                     int[] ypointsStar = {y+45, y+37, y+39, y+30, y+25, y+21, y+30, y+11, y+14, y+5, y+14, y+11, y+21, y+25, y+30, y+39, y+37};
                     g.fillPolygon(xpointsStar, ypointsStar, 17);
                     break;
                 case "square":
-                    g.setColor(coordinate.tile.getColor());
                     g.fillRect(x+7, y+7, 36, 36);
                     break;
                 case "diamond":
-                    g.setColor(coordinate.tile.getColor());
                     int[] xpoints = {x+25, x+5, x+25, x+45};
                     int[] ypoints = {y+45, y+25, y+5, y+25};
                     g.fillPolygon(xpoints, ypoints, 4);
                     break;
                 case "clover":
-                    g.setColor(coordinate.tile.getColor());
-                    g.fillOval(x+5, y+5, 40, 40);
+                    g.fillOval(x+5, y+16, 15, 15);
+                    g.fillOval(x+29, y+16, 15, 15);
+                    g.fillOval(x+17, y+5, 15, 15);
+                    g.fillOval(x+17, y+28, 15, 15);
+                    int[] xpointsClover = {x+30, x+25, x+20, x+17, x+20, x+25, x+30, x+33};
+                    int[] ypointsClover = {y+20, y+17, y+20, y+25, y+30, y+33, y+30, y+25};
+                    g.fillPolygon(xpointsClover, ypointsClover, 8);
                     break;
                 case "cross":
-                    g.setColor(coordinate.tile.getColor());
                     int[] xpointsCross = {x+45, x+25, x+5, x+17, x+5, x+25, x+45, x+33};
                     int[] ypointsCross = {y+5, y+17, y+5, y+25, y+45, y+33, y+45, y+25};
                     g.fillPolygon(xpointsCross, ypointsCross, 8);

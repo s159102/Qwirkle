@@ -16,59 +16,53 @@
  */
 package qwirkle;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import view.*;
 
 /**
  *
  * @author s159102
  */
 public class Qwirkle {
-
+    
     public static void main(String[] args) {
-        TilesAvailable tiles = new TilesAvailable();
-        tiles.initialise();
-        Grid grid = new Grid();
-        grid.createInitialCoordinates();
-        grid.addTiles(0, 0, "right", tiles.tiles);
-        GridView view = new GridView();
+        Matrix matrix = new Matrix();
+        matrix.initialise();
         
-        JFrame f = new JFrame("Qwirkle");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setExtendedState(JFrame.NORMAL); 
-        f.setVisible(true);
-        f.setLayout(new BoxLayout(f.getContentPane(), BoxLayout.PAGE_AXIS));
-        f.add(view);
-
-        TilesAvailable tiles2 = new TilesAvailable();
-        tiles2.initialise();
-        Grid grid2 = new Grid();
-        grid2.createInitialCoordinates();
-        grid2.addTiles(0, 0, "right", tiles2.options);
-        OptionView view2 = new OptionView(grid2.coordinates);  
-        f.add(view2);
-        view2.addMouseListener(new MouseAdapter() {
-          public void mouseClicked(MouseEvent e) {
-            if (e.getButton() == MouseEvent.NOBUTTON) {
-                System.out.println("nobutton");
-            } else if (e.getButton() == MouseEvent.BUTTON1) {
-                System.out.println("linkse muis knop");
-                int xTile = e.getX()/50;
-                int yTile = e.getY()/50;
-                int index = xTile + 6 * (yTile -1);
-                Tile tileToPlace = tiles.options.get(index);
-                view.addTile(tileToPlace);
-            } else if (e.getButton() == MouseEvent.BUTTON2) {
-                System.out.println("middel muis knop");
-            } else if (e.getButton() == MouseEvent.BUTTON3) {
-                System.out.println("rechter muis knop");
+        Tiles tiles = new Tiles();
+        tiles.initialise();
+        
+        GridView view = new GridView();
+        view.setMatrix(matrix);
+        
+        makeFrame(view);
+        
+        test(view, matrix, tiles);
+    }
+    
+    static void makeFrame(GridView view){
+        JFrame frame = new JFrame("Qwirkle");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.add(view);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+    }
+    
+    static void test(GridView view, Matrix matrix, Tiles tiles){
+        for (int i = 0; i < 18; i++){
+            for (int j = 0; j < 18; j++){
+                matrix.addTile(j, i, tiles.getRandomTile());
             }
-          }
-        });
+        }
+        view.setMatrix(matrix);
+        view.repaint();
+        view.revalidate();
     }
 
     

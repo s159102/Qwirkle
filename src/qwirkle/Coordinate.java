@@ -21,15 +21,10 @@ package qwirkle;
  * @author s159102
  */
 public class Coordinate {
-    private Boolean empty;
-    public Tile tile;
-    private Integer x;
-    private Integer y;
+    private Boolean empty = true;
+    private Tile tile;
     
-    public Coordinate(Integer x, Integer y){
-        this.x = x;
-        this.y = y;
-        this.empty = true;
+    public Coordinate(){
     }
     
     public void add(Tile tile){
@@ -37,11 +32,17 @@ public class Coordinate {
         this.empty = false;
     }
     
-    public Integer getX(){
-        return x;
+    public void reset(){
+        this.tile = null;
+        
     }
     
-    public Integer getY(){
-        return y;
+    public Tile tile(){
+         return tile;
     }
+    
+    public Boolean isEmpty(){
+        return empty;
+    }
+
 }

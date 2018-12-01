@@ -24,28 +24,18 @@ import java.util.Collections;
  *
  * @author s159102
  */
-public class TilesAvailable {
+public class Tiles {
     String[] shapes = {"star", "circle", "square", "diamond", "clover", "cross"};
     Color[] colors = {new Color(1, 138, 239), new Color(244, 6, 31), new Color(242, 232, 56), new Color(165, 206, 78), new Color(106, 5, 137), new Color(243, 142, 30)};
     Integer numberOfTilesInBag = 108;
-    public ArrayList<Tile> tiles = new ArrayList();
-    public ArrayList<Tile> options = new ArrayList();
+    ArrayList<Tile> tiles = new ArrayList();
     
     void TilesAvailable(){
-        
     }
     
     public void initialise(){
         createTiles();
-        shuffle();
-        print();
-    }
-    
-    public void print(){
-        System.out.println("Printing tiles available:");
-        for (Tile tile : tiles){
-            System.out.println(tiles.indexOf(tile) + " -> color: " + tile.getColor() + ", shape: " + tile.getShape());
-        }
+        //shuffle();
     }
     
     private void createTiles(){
@@ -54,13 +44,20 @@ public class TilesAvailable {
                 tiles.add(new Tile(shape, color));
                 tiles.add(new Tile(shape, color));
                 tiles.add(new Tile(shape, color));
-                options.add(new Tile(shape, color));
             }
         }
     }
     
     void shuffle(){
         Collections.shuffle(tiles);
+    }
+    
+    public Tile getRandomTile(){
+        if (tiles.size()>0){
+            return tiles.remove(0);
+        } else {
+            throw new IllegalStateException("tiles.size() < 1");
+        }
     }
     
 }
