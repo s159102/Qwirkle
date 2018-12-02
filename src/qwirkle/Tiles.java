@@ -25,8 +25,8 @@ import java.util.Collections;
  * @author s159102
  */
 public class Tiles {
-    String[] shapes = {"star", "circle", "square", "diamond", "clover", "cross"};
-    Color[] colors = {new Color(1, 138, 239), new Color(244, 6, 31), new Color(242, 232, 56), new Color(165, 206, 78), new Color(106, 5, 137), new Color(243, 142, 30)};
+    public String[] shapes = {"star", "circle", "square", "diamond", "clover", "cross"};
+    public Color[] colors = {new Color(1, 138, 239), new Color(244, 6, 31), new Color(242, 232, 56), new Color(165, 206, 78), new Color(106, 5, 137), new Color(243, 142, 30)};
     Integer numberOfTilesInBag = 108;
     ArrayList<Tile> tiles = new ArrayList();
     
@@ -35,7 +35,7 @@ public class Tiles {
     
     public void initialise(){
         createTiles();
-        //shuffle();
+        shuffle();
     }
     
     private void createTiles(){

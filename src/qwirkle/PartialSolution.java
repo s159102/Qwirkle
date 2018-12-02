@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 s159102
+ * Copyright (C) 2018 Mart
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,38 +16,22 @@
  */
 package qwirkle;
 
+import java.util.ArrayList;
+
 /**
  *
- * @author s159102
+ * @author Mart
  */
-public class Coordinate {
-    private Boolean empty = true;
-    private Tile tile;
+public class PartialSolution {
+    public int x;
+    public int y;
+    public String direction;
+    public ArrayList<Tile> tiles;
     
-    public Coordinate(){
+    public void setSolution(int x, int y, String direction, ArrayList<Tile> tiles){
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
+        this.tiles = tiles;
     }
-    
-    public void add(Tile tile){
-        this.tile = tile;
-        this.empty = false;
-    }
-    
-    public void remove(Tile tile){
-        this.tile = null;
-        this.empty = true;
-    }
-    
-    public void reset(){
-        this.tile = null;
-        
-    }
-    
-    public Tile tile(){
-         return tile;
-    }
-    
-    public Boolean isEmpty(){
-        return empty;
-    }
-
 }

@@ -24,6 +24,7 @@ import java.util.ArrayList;
  */
 public class Matrix {
     Coordinate[][] matrix = new Coordinate[181][181];
+    int numberOfTilesPlaced = 0;
     
     Matrix(){ 
     }
@@ -35,6 +36,14 @@ public class Matrix {
                 matrix[i][j] = newCoordinate;
             }
         }
+    }
+    
+    public void addTiles(PartialSolution sol){
+        addTiles(sol.x, sol.y, sol.direction, sol.tiles);
+    }
+    
+    public void removeTiles(PartialSolution sol){
+        removeTiles(sol.x, sol.y, sol.direction, sol.tiles);
     }
     
     public void addTiles(int x, int y, String direction, ArrayList<Tile> tiles){
@@ -65,6 +74,34 @@ public class Matrix {
         }
     }
     
+    public void removeTiles(int x, int y, String direction, ArrayList<Tile> tiles){
+        
+        if (tiles.size() > 6){
+            throw new IllegalArgumentException("Matrix.addTiles(); Number of tiles > 6");
+        }
+        
+        while (!tiles.isEmpty()){
+            switch(direction){
+                case "right":
+                    removeTile(x, y, tiles.remove(0));
+                    x = x + 1;
+                    break;
+                case "left":
+                    removeTile(x, y, tiles.remove(0));
+                    x = x - 1;
+                    break;
+                case "up":
+                    removeTile(x, y, tiles.remove(0));
+                    y = y + 1;
+                    break;
+                case "down":
+                    removeTile(x, y, tiles.remove(0));
+                    y = y - 1;
+                    break;
+            }
+        }
+    }
+    
     public Coordinate getCoordinate(int x, int y){
         return matrix[x][y];
     }
@@ -77,5 +114,17 @@ public class Matrix {
             throw new IllegalArgumentException("Matrix.addTile(); x < 0 || y < 0");
         }
         matrix[x][y].add(tile);
+        numberOfTilesPlaced++;
+    }
+    
+    public void removeTile(int x, int y, Tile tile){
+        if (tile == null){
+            throw new IllegalArgumentException("Matrix.addTile(); tile == null");
+        }
+        if (x < 0 || y < 0){
+            throw new IllegalArgumentException("Matrix.addTile(); x < 0 || y < 0");
+        }
+        matrix[x][y].remove(tile);
+        numberOfTilesPlaced--;
     }
 }

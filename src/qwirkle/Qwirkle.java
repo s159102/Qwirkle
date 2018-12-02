@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
@@ -55,11 +56,19 @@ public class Qwirkle {
     }
     
     static void test(GridView view, Matrix matrix, Tiles tiles){
-        for (int i = 0; i < 18; i++){
-            for (int j = 0; j < 18; j++){
-                matrix.addTile(j, i, tiles.getRandomTile());
-            }
+        
+        Solver solver = new Solver();
+        
+        ArrayList<Tile> playersTiles = new ArrayList();
+        for (int i = 0; i < 6; i++){
+            playersTiles.add(tiles.getRandomTile());
         }
+        
+        solver.initialise(matrix, playersTiles);
+        PartialSolution solution = solver.solve();
+
+        matrix.addTiles(solution);
+        
         view.setMatrix(matrix);
         view.repaint();
         view.revalidate();
