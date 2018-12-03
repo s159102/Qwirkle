@@ -16,6 +16,8 @@
  */
 package qwirkle;
 
+import java.awt.Color;
+
 /**
  *
  * @author s159102
@@ -23,18 +25,18 @@ package qwirkle;
 public class Tile {
     
     private String shape; //the shape of the tile
-    private String color; //the color of the tile
+    private Color color; //the color of the tile
 
-    Tile(String shape, String color){
+    public Tile(String shape, Color color){
         this.shape = shape;
         this.color = color;
     }
     
-    String getShape(){
+    public String getShape(){
         return shape;
     }
     
-    String getColor(){
+    public Color getColor(){
         return color;
     }
 }

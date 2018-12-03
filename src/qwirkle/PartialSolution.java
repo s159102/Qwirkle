@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 s159102
+ * Copyright (C) 2018 Mart
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,16 +20,18 @@ import java.util.ArrayList;
 
 /**
  *
- * @author s159102
+ * @author Mart
  */
 public class PartialSolution {
+    public int x;
+    public int y;
+    public String direction;
+    public ArrayList<Tile> tiles;
 
-    void set(int x, int y, String right, ArrayList<Tile> list) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setSolution(int x, int y, String direction, ArrayList<Tile> tiles){
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
+        this.tiles = tiles;
     }
-
-    void set(int i, int y, String right, Tile tile) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

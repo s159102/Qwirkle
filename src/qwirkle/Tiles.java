@@ -16,41 +16,31 @@
  */
 package qwirkle;
 
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
  *
  * @author s159102
  */
-public class TilesAvailable {
-    String[] shapes = {"star", "cirkle", "square", "diamond", "clover", "cross"};
-    String[] colors = {"blue", "red", "yellow", "green", "purple", "orange"};
+public class Tiles {
+    public String[] shapes = {"star", "circle", "square", "diamond", "clover", "cross"};
+    public Color[] colors = {new Color(1, 138, 239), new Color(244, 6, 31), new Color(242, 232, 56), new Color(165, 206, 78), new Color(106, 5, 137), new Color(243, 142, 30)};
     Integer numberOfTilesInBag = 108;
     ArrayList<Tile> tiles = new ArrayList();
     
     void TilesAvailable(){
-        
     }
     
     public void initialise(){
         createTiles();
         shuffle();
-        print();
-    }
-    
-    public void print(){
-        System.out.println("Printing tiles available:");
-        for (Tile tile : tiles){
-            System.out.println(tiles.indexOf(tile) + " -> color: " + tile.getColor() + ", shape: " + tile.getShape());
-        }
     }
     
     private void createTiles(){
         for (String shape : shapes){
-            System.out.println(shape);
-            for (String color : colors){
+            for (Color color : colors){
                 tiles.add(new Tile(shape, color));
                 tiles.add(new Tile(shape, color));
                 tiles.add(new Tile(shape, color));
@@ -58,8 +48,16 @@ public class TilesAvailable {
         }
     }
     
-    private void shuffle(){
+    void shuffle(){
         Collections.shuffle(tiles);
+    }
+    
+    public Tile getRandomTile(){
+        if (tiles.size()>0){
+            return tiles.remove(0);
+        } else {
+            throw new IllegalStateException("tiles.size() < 1");
+        }
     }
     
 }

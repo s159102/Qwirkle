@@ -21,27 +21,33 @@ package qwirkle;
  * @author s159102
  */
 public class Coordinate {
-    private Boolean empty;
-    Tile tile;
-    private Integer x;
-    private Integer y;
+    private Boolean empty = true;
+    private Tile tile;
     
-    Coordinate(Integer x, Integer y){
-        this.x = x;
-        this.y = y;
-        this.empty = true;
+    public Coordinate(){
     }
     
-    void add(Tile tile){
+    public void add(Tile tile){
         this.tile = tile;
         this.empty = false;
     }
     
-    public Integer getX(){
-        return x;
+    public void remove(Tile tile){
+        this.tile = null;
+        this.empty = true;
     }
     
-    public Integer getY(){
-        return y;
+    public void reset(){
+        this.tile = null;
+        
     }
+    
+    public Tile tile(){
+         return tile;
+    }
+    
+    public Boolean isEmpty(){
+        return empty;
+    }
+
 }
