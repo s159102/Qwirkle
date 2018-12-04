@@ -29,6 +29,21 @@ public class Matrix {
     Matrix(){ 
     }
     
+    public Matrix clone(){
+        Matrix matrixObj = new Matrix();
+        matrixObj.initialise();
+        for(int i = 0; i < 181; i++){
+            for(int j = 0; j < 181; j++){
+                Coordinate newCoordinate = new Coordinate();
+                if (!this.matrix[i][j].isEmpty()){
+                    newCoordinate.add(this.matrix[i][j].tile());
+                }
+                matrixObj.matrix[i][j] = newCoordinate;
+            }
+        }
+        return matrixObj;
+    }
+    
     public void initialise(){
         for(int i = 0; i < 181; i++){
             for(int j = 0; j < 181; j++){
@@ -39,18 +54,18 @@ public class Matrix {
     }
     
     public void addTiles(PartialSolution sol){
-        addTiles(sol.x, sol.y, sol.direction, sol.tiles);
+        for (int i = 0; i < sol.tiles.size(); i++){
+            addTile(sol.xCoordinates.get(i), sol.yCoordinates.get(i), sol.tiles.get(i));
+        }
     }
     
     public void removeTiles(PartialSolution sol){
-        removeTiles(sol.x, sol.y, sol.direction, sol.tiles);
+        for (int i = 0; i < sol.tiles.size(); i++){
+            removeTile(sol.xCoordinates.get(i), sol.yCoordinates.get(i), sol.tiles.get(i));
+        }
     }
     
     public void addTiles(int x, int y, String direction, ArrayList<Tile> tiles){
-        
-        if (tiles.size() > 6){
-            throw new IllegalArgumentException("Matrix.addTiles(); Number of tiles > 6");
-        }
         
         while (!tiles.isEmpty()){
             switch(direction){
@@ -103,6 +118,12 @@ public class Matrix {
     }
     
     public Coordinate getCoordinate(int x, int y){
+        if (x < 0){
+            throw new IllegalArgumentException("x<0! x:" + x);
+        }
+        if (y < 0){
+            throw new IllegalArgumentException("y<0! y:" + y);
+        }
         return matrix[x][y];
     }
     

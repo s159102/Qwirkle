@@ -23,15 +23,25 @@ import java.util.ArrayList;
  * @author Mart
  */
 public class PartialSolution {
-    public int x;
-    public int y;
-    public String direction;
-    public ArrayList<Tile> tiles;
+    public ArrayList<Tile> tiles = new ArrayList();
+    public ArrayList<Integer> xCoordinates = new ArrayList();
+    public ArrayList<Integer> yCoordinates = new ArrayList();
 
-    public void setSolution(int x, int y, String direction, ArrayList<Tile> tiles){
-        this.x = x;
-        this.y = y;
-        this.direction = direction;
-        this.tiles = tiles;
+    public void addOption(int x, int y, Tile tile){
+        tiles.add(tile);
+        xCoordinates.add(x);
+        yCoordinates.add(y);
+    }
+    
+    public String getDirection(){
+        if (xCoordinates.size() < 2){
+            return "horizontal";
+        } else {
+            if (xCoordinates.get(0) == xCoordinates.get(1)){
+                return "vertical";
+            } else {
+                return "horizontal";
+            }
+        }
     }
 }

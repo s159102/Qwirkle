@@ -40,10 +40,6 @@ public class GridView extends JPanel {
         this.setBackground(Color.WHITE);
         drawLines(g);
         drawCoordinates(g);
-
-        if (matrix != null){
-            System.out.println("");
-        }
     }
     
     private void drawCoordinates(Graphics g){
@@ -97,7 +93,6 @@ public class GridView extends JPanel {
     
     public void drawCoordinate(Coordinate coordinate, int x, int y, Graphics g){
         if (!coordinate.isEmpty()){
-            System.out.println("Coordinate at, x: " + x + ", y: " + y);
             x = x * 50;
             y = y * 50;
             g.setColor(Color.BLACK);

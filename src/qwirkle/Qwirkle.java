@@ -22,8 +22,13 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -32,18 +37,23 @@ import javax.swing.JFrame;
 public class Qwirkle {
     
     public static void main(String[] args) {
-        Matrix matrix = new Matrix();
-        matrix.initialise();
-        
-        Tiles tiles = new Tiles();
-        tiles.initialise();
-        
         GridView view = new GridView();
-        view.setMatrix(matrix);
-        
         makeFrame(view);
-        
-        test(view, matrix, tiles);
+
+        while(true){
+
+            Matrix matrix = new Matrix();
+            matrix.initialise();
+
+            Tiles tiles = new Tiles();
+            tiles.initialise();
+
+            
+            view.setMatrix(matrix);
+
+            simulation(view, matrix, tiles);
+
+        }
     }
     
     static void makeFrame(GridView view){
@@ -55,23 +65,54 @@ public class Qwirkle {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
     }
     
-    static void test(GridView view, Matrix matrix, Tiles tiles){
+    static void simulation(GridView view, Matrix matrix, Tiles tiles) {
         
         Solver solver = new Solver();
         
         ArrayList<Tile> playersTiles = new ArrayList();
-        for (int i = 0; i < 6; i++){
-            playersTiles.add(tiles.getRandomTile());
+        
+        boolean stopTest = false;
+  
+        while (true){
+            if (stopTest){
+                return;
+            }
+            for (int i = playersTiles.size(); i < 6; i++){
+                try {
+                    Tile tile = tiles.getRandomTile();
+                    playersTiles.add(tile);
+                } catch (IllegalStateException e) {
+                    stopTest = true;
+                    break;
+                }
+            }
+        
+            solver.initialise(matrix, playersTiles);
+            PartialSolution solution = solver.solve();
+            
+            if (solution == null || solution.tiles.isEmpty()){
+                playersTiles.clear();
+            } else {
+                for (Tile tile: solution.tiles){
+                    playersTiles.remove(tile);
+                }
+            }
+            
+            matrix.addTiles(solution);
+            view.setMatrix(matrix.clone());
+            view.repaint();
+            view.revalidate();
+            
+            try
+            {
+                Thread.sleep(50);
+            }
+            catch(InterruptedException ex)
+            {
+                Thread.currentThread().interrupt();
+            }
         }
         
-        solver.initialise(matrix, playersTiles);
-        PartialSolution solution = solver.solve();
-
-        matrix.addTiles(solution);
-        
-        view.setMatrix(matrix);
-        view.repaint();
-        view.revalidate();
     }
 
     
