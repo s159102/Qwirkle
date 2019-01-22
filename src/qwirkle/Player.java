@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * @author s159102
  */
 public class Player {
-    private ArrayList<Tile> tiles = new ArrayList();
+    ArrayList<Tile> tiles = new ArrayList();
     Tiles tilesInBag;
     
     public void initialise(Tiles tilesClass){
@@ -38,20 +38,6 @@ public class Player {
     }
     
     public void getNewTiles(){
-        
-        try
-                {
-                    for (Tile tile: tiles){
-                        System.out.println(tile.getShape() + " - " + tile.getColorString());
-                    }
-                    Thread.sleep(500000); //50
-                }
-                catch(InterruptedException ex)
-                {
-                    Thread.currentThread().interrupt();
-                }
-        
-        
         for (Tile tile: tiles){
             tilesInBag.returnTile(tile);
         }

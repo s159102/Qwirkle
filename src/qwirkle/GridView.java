@@ -154,17 +154,17 @@ public class GridView extends JPanel {
                     break;
             }
 
-            if (x < 0){
-                newHorOffset = curHorOffset + x;
+            if (x < 50){
+                newHorOffset = curHorOffset + x - 50;
             }
-            if (x > (37*50)){
-                newHorOffset = curHorOffset + x - (37*50);
+            if (x > (31*50)){
+                newHorOffset = curHorOffset + x - (31*50);
             }
-            if (y < 0){
-                newVerOffset = curVerOffset + y;
+            if (y < 50){
+                newVerOffset = curVerOffset + y - 50;
             }
-            if (y > (20*50)){
-                newVerOffset = curVerOffset + (y - (20*50));
+            if (y > (18*50)){
+                newVerOffset = curVerOffset + (y - (18*50));
             }
         }
     }

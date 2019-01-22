@@ -54,7 +54,7 @@ public class Qwirkle {
             
             view.setMatrix(matrix);
 
-            simulation(view, matrix, tiles);
+            simulation(view, view2, matrix, tiles);
 
         }
     }
@@ -83,49 +83,65 @@ public class Qwirkle {
 
     }
     
-    static void simulation(GridView view, Matrix matrix, Tiles tiles) {
+    static void simulation(GridView view, SideView view2, Matrix matrix, Tiles tiles) {
         Solver solver = new Solver();
         
         boolean stopTest = false;
         
-        Player[] player = {new Player(), new Player()};
+        Player[] player = {new Player(), new Player(), new Player(), new Player()};
         player[0].initialise(tiles);
         player[1].initialise(tiles);
+        player[2].initialise(tiles);
+        player[3].initialise(tiles);
+        
+        view2.setPlayers(player);
   
         while (true){
             if (stopTest){
-                return;
+                try
+                {
+                    Thread.sleep(1000); //50
+                    return;
+                }
+                catch(InterruptedException ex)
+                {
+                    Thread.currentThread().interrupt();
+                }
             }
             
             for (int i = 0; i < player.length; i++){
 
-                try {
-                    solver.initialise(matrix, player[i].getTilesInHand());
-                    PartialSolution solution = solver.solve();
+                view2.setActivePlayer(i);
+                
+                try
+                {
+                    Thread.sleep(100); //50
+                }
+                catch(InterruptedException ex)
+                {
+                    Thread.currentThread().interrupt();
+                }
+                
+                solver.initialise(matrix, player[i].getTilesInHand());
+                PartialSolution solution = solver.solve();
 
+                try {
                     if (solution == null || solution.tiles.isEmpty()){
                         player[i].getNewTiles();
                     } else {
                         player[i].removeTiles(solution.tiles);
                     }
-
-                    matrix.addTiles(solution);
-                    view.setMatrix(matrix.clone());
-                    view.repaint();
-                    view.revalidate();
+                }catch (IllegalStateException e) {}
                 
-                } catch (IllegalStateException e) {
+                view2.repaint();
+                view2.revalidate();
+                matrix.addTiles(solution);
+                view.repaint();
+                view.revalidate();     
+                
+                if (player[i].getTilesInHand().isEmpty()){
                     stopTest = true;
                     break;
-                }
-                
-                try
-                {
-                    Thread.sleep(50); //50
-                }
-                catch(InterruptedException ex)
-                {
-                    Thread.currentThread().interrupt();
                 }
             }
         }

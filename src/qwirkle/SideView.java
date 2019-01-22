@@ -28,7 +28,8 @@ import javax.swing.*;
  */
 public class SideView extends JPanel {
     
-
+    Player[] player;
+    int activePlayer = 0;
     
     public SideView(){
         setMouseListener();
@@ -39,6 +40,11 @@ public class SideView extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.WHITE);
         drawLines(g);
+        drawTiles(g);
+    }
+    
+    public void setActivePlayer(int k){
+        activePlayer = k;
     }
     
     private void drawLines(Graphics g){
@@ -52,7 +58,9 @@ public class SideView extends JPanel {
         g.setColor(Color.BLACK);
     }
     
-
+    public void setPlayers(Player[] player){
+        this.player = player;
+    }
     
     private void setMouseListener(){
         this.addMouseListener(new MouseAdapter() {
@@ -87,14 +95,37 @@ public class SideView extends JPanel {
         return d;
     }
     
-    public void drawCoordinate(Coordinate coordinate, int x, int y, Graphics g){
-        if (!coordinate.isEmpty()){
+    private void drawTiles(Graphics g){
+        int x = 0;
+        int y = 3;
+        for (int i = 0; i < player.length; i++){
+            if (i == activePlayer){
+                g.setColor(Color.RED);
+                g.drawLine(0, (149+i*100), 6*50, (149+i*100));
+                g.drawLine(0, (148+i*100), 6*50, (148+i*100));
+                g.drawLine(0, (147+i*100), 6*50, (147+i*100));
+                g.drawLine(0, (201+i*100), 6*50, (201+i*100));
+                g.drawLine(0, (202+i*100), 6*50, (202+i*100));
+                g.drawLine(0, (200+i*100), 6*50, (200+i*100));
+                g.setColor(Color.BLACK);
+            }
+            for (Tile tile : player[i].tiles){
+                drawTile(tile, x, y, g);
+                x++;
+            }
+            x = 0;
+            y++;
+            y++;
+        }
+    }
+    
+    public void drawTile(Tile tile, int x, int y, Graphics g){
             x = x * 50;
             y = y * 50;
             g.setColor(Color.BLACK);
             g.fillRect(x, y, 50, 50);
-            g.setColor(coordinate.tile().getColor());
-            switch(coordinate.tile().getShape()){
+            g.setColor(tile.getColor());
+            switch(tile.getShape()){
                 case "circle":
                     g.fillOval(x+5, y+5, 40, 40);
                     break;
@@ -126,7 +157,6 @@ public class SideView extends JPanel {
                     g.fillPolygon(xpointsCross, ypointsCross, 8);
                     break;
             }
-        }
     }
 
 }
