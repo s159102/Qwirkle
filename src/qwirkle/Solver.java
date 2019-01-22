@@ -46,7 +46,7 @@ public class Solver {
         if (matrix.numberOfTilesPlaced == 0){
             ArrayList<Tile> firstTiles = firstTiles();
             for (int i = 0; i < firstTiles.size(); i++){
-                partialSol.addOption(20+i, 12, firstTiles.get(i));
+                partialSol.addOption(45+i, 45, firstTiles.get(i));
             }
             return partialSol;
         } else {
@@ -68,7 +68,7 @@ public class Solver {
     }
     
     private ArrayList<PartialSolution> getPossiblePlaces(ArrayList<Tile> combination){
-        return checkTileSetOnCoordinate(20, 12, combination);
+        return checkTileSetOnCoordinate(45, 45, combination);
     }
 
     public int points(PartialSolution solution){

@@ -28,6 +28,11 @@ import javax.swing.*;
 public class GridView extends JPanel {
     
     Matrix matrix;
+    int curHorOffset = 1350;
+    int curVerOffset = 1700;
+    int newHorOffset = 1350;
+    int newVerOffset = 1700;
+    
     
     public GridView(){
         setMouseListener();
@@ -36,8 +41,9 @@ public class GridView extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        
         this.setBackground(Color.WHITE);
+        curVerOffset = newVerOffset;
+        curHorOffset = newHorOffset;
         drawLines(g);
         drawCoordinates(g);
     }
@@ -55,9 +61,18 @@ public class GridView extends JPanel {
     private void drawLines(Graphics g){
         g.setColor(Color.BLACK);
         for (int i = 0; i <= 4550; i = i + 50){
-            g.drawLine(i, 0, i, 4550);
-            g.drawLine(0, i, 4550, i);
+            g.drawLine(i-curHorOffset, 0-curVerOffset, i-curHorOffset, 4550-curVerOffset); //horizontal
+            g.drawLine(0-curHorOffset, i-curVerOffset, 4550-curHorOffset, i-curVerOffset); //vertical
         }
+        
+        g.setColor(Color.BLUE);
+        for (int i = 0; i < 5; i++){
+            g.drawLine(i, 0, i, this.getHeight());//left
+            g.drawLine(this.getWidth()-i, 0, this.getWidth()-i, this.getHeight());//right
+            g.drawLine(0, i, this.getWidth(), i);//top
+            g.drawLine(0, this.getHeight()-i, this.getWidth(), this.getHeight()-i);
+        }
+        g.setColor(Color.BLACK);
     }
     
     public void setMatrix(Matrix matrix){
@@ -91,10 +106,18 @@ public class GridView extends JPanel {
 
     }
     
+    @Override
+    public Dimension getPreferredSize(){
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        d.width = (int) (d.width - 50*6 - 20);
+        d.height = (int) (d.height - 80);
+        return d;
+    }
+    
     public void drawCoordinate(Coordinate coordinate, int x, int y, Graphics g){
         if (!coordinate.isEmpty()){
-            x = x * 50;
-            y = y * 50;
+            x = x * 50 - curHorOffset;
+            y = y * 50 - curVerOffset;
             g.setColor(Color.BLACK);
             g.fillRect(x, y, 50, 50);
             g.setColor(coordinate.tile().getColor());
@@ -130,7 +153,19 @@ public class GridView extends JPanel {
                     g.fillPolygon(xpointsCross, ypointsCross, 8);
                     break;
             }
-            
+
+            if (x < 0){
+                newHorOffset = curHorOffset + x;
+            }
+            if (x > (37*50)){
+                newHorOffset = curHorOffset + x - (37*50);
+            }
+            if (y < 0){
+                newVerOffset = curVerOffset + y;
+            }
+            if (y > (20*50)){
+                newVerOffset = curVerOffset + (y - (20*50));
+            }
         }
     }
 

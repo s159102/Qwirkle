@@ -19,6 +19,8 @@ package qwirkle;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -38,7 +40,8 @@ public class Qwirkle {
     
     public static void main(String[] args) {
         GridView view = new GridView();
-        makeFrame(view);
+        SideView view2 = new SideView();
+        makeMainPanel(view, view2);
 
         while(true){
 
@@ -56,13 +59,28 @@ public class Qwirkle {
         }
     }
     
-    static void makeFrame(GridView view){
-        JFrame frame = new JFrame("Qwirkle");
+    static void makeMainPanel(GridView view, SideView view2){
+        JPanel panel = new JPanel();
+        panel.setVisible(true);
+        panel.add(view);
+        
+        JPanel panel2 = new JPanel();
+        panel2.setVisible(true);
+        panel2.add(view2);
+        
+        
+        JFrame frame = new JFrame("Quirkle");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        frame.add(panel, BorderLayout.EAST);
+        frame.add(panel2, BorderLayout.WEST);
+        
         frame.pack();
         frame.setVisible(true);
-        frame.add(view);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        
+
     }
     
     static void simulation(GridView view, Matrix matrix, Tiles tiles) {
@@ -105,7 +123,7 @@ public class Qwirkle {
             
             try
             {
-                Thread.sleep(50);
+                Thread.sleep(100);
             }
             catch(InterruptedException ex)
             {
