@@ -84,50 +84,49 @@ public class Qwirkle {
     }
     
     static void simulation(GridView view, Matrix matrix, Tiles tiles) {
-        
         Solver solver = new Solver();
         
-        ArrayList<Tile> playersTiles = new ArrayList();
-        
         boolean stopTest = false;
+        
+        Player[] player = {new Player(), new Player()};
+        player[0].initialise(tiles);
+        player[1].initialise(tiles);
   
         while (true){
             if (stopTest){
                 return;
             }
-            for (int i = playersTiles.size(); i < 6; i++){
+            
+            for (int i = 0; i < player.length; i++){
+
                 try {
-                    Tile tile = tiles.getRandomTile();
-                    playersTiles.add(tile);
+                    solver.initialise(matrix, player[i].getTilesInHand());
+                    PartialSolution solution = solver.solve();
+
+                    if (solution == null || solution.tiles.isEmpty()){
+                        player[i].getNewTiles();
+                    } else {
+                        player[i].removeTiles(solution.tiles);
+                    }
+
+                    matrix.addTiles(solution);
+                    view.setMatrix(matrix.clone());
+                    view.repaint();
+                    view.revalidate();
+                
                 } catch (IllegalStateException e) {
                     stopTest = true;
                     break;
                 }
-            }
-        
-            solver.initialise(matrix, playersTiles);
-            PartialSolution solution = solver.solve();
-            
-            if (solution == null || solution.tiles.isEmpty()){
-                playersTiles.clear();
-            } else {
-                for (Tile tile: solution.tiles){
-                    playersTiles.remove(tile);
+                
+                try
+                {
+                    Thread.sleep(50); //50
                 }
-            }
-            
-            matrix.addTiles(solution);
-            view.setMatrix(matrix.clone());
-            view.repaint();
-            view.revalidate();
-            
-            try
-            {
-                Thread.sleep(100);
-            }
-            catch(InterruptedException ex)
-            {
-                Thread.currentThread().interrupt();
+                catch(InterruptedException ex)
+                {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
         

@@ -26,10 +26,12 @@ public class Tile {
     
     private String shape; //the shape of the tile
     private Color color; //the color of the tile
+    private String colorString;
 
-    public Tile(String shape, Color color){
+    public Tile(String shape, Color color, String colorString){
         this.shape = shape;
         this.color = color;
+        this.colorString = colorString;
     }
     
     public String getShape(){
@@ -38,5 +40,17 @@ public class Tile {
     
     public Color getColor(){
         return color;
+    }
+    
+    public String getColorString(){
+        return colorString;
+    }
+    
+    public boolean equal(Tile otherTile){
+        if (otherTile.getColor().getRGB()==this.color.getRGB() &&
+                otherTile.getShape().equals(this.shape)){
+            return true;
+        }
+        return false;
     }
 }
